@@ -19,7 +19,7 @@
     "progress": 99,
     "startDate": "23/05/2025",
     "endDate": "17/06/2025",
-    "observations": "Se acordó pasar informe actualizado a producción el martes para no afectar la migración S3",
+    "observations": "Se acordó pasar informe actualizado a producción el martes 24 de junio para no afectar la migración S3",
     "unit": "Bolívar",
     "detail": "Se identificó que el informe actual presenta limitaciones cuando existen más de tres glosas, por lo cual se propuso el desarrollo de un nuevo informe que sea más claro y funcional."
   },
