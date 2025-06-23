@@ -449,7 +449,12 @@ console.log("Cargando archivos JSON:", archivos);
         <p>${task.detail || 'Sin detalle registrado.'}</p>
     </div>
 </div>
-    <p><strong>Observaciones:</strong> ${task.observations}</p>
+    <p><strong>Observaciones:</strong><br>
+   <pre style="white-space: pre-wrap; font-family: inherit;">
+${task.observations.replace(/\[(.*?)\]/g, '<strong>$1</strong>')}
+</pre
+
+    </p>
     
                         </div>
                     </div>
