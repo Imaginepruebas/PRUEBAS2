@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Separar por unidad</title>
+</head>
+<body>
+  <h2>Separar requerimientos por unidad</h2>
+  <p>Pega aquí el contenido completo de <code>tasks.json</code>:</p>
+  <textarea id="entrada" placeholder="Pega aquí el JSON" style="width:100%;height:200px;"></textarea><br><br>
+  <button onclick="separar()">Separar</button>
+
+  <h3>Resultado:</h3>
+  <pre id="salida" style="background:#f0f0f0;padding:10px;"></pre>
+
+  <script>
+    function separar() {
+      try {
+        const input = document.getElementById('entrada').value;
+        const datos = JSON.parse(input);
+
+        const porUnidad = {
+          Bolivar: [],
+          Proteccion: [],
+          Alfa: []
+        };
+
+        datos.forEach(t => {
+          const unidad = (t.unit || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+// Esto remueve tildes y pasa todo a minúscula
+
+if (unidad.includes("bolivar")) porUnidad.Bolivar.push(t);
+else if (unidad.includes("proteccion")) porUnidad.Proteccion.push(t);
+else if (unidad.includes("alfa")) porUnidad.Alfa.push(t);
+        });
+
+        document.getElementById('salida').textContent =
+          '--- Bolívar ---\n' + JSON.stringify(porUnidad.Bolivar, null, 2) + '\n\n' +
+          '--- Protección ---\n' + JSON.stringify(porUnidad.Proteccion, null, 2) + '\n\n' +
+          '--- Alfa ---\n' + JSON.stringify(porUnidad.Alfa, null, 2);
+      } catch (e) {
+        alert("Error al procesar el JSON: " + e.message);
+      }
+    }
+  </script>
+</body>
+</html>

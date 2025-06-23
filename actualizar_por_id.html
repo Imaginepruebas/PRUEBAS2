@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actualizar Requerimientos por ID</title>
+</head>
+<body>
+  <h2>Actualizar Requerimientos por ID (fusor JSON)</h2>
+
+  <p><strong>Paso 1:</strong> Pega aquí el contenido original del archivo (por ejemplo, bolivar.json)</p>
+  <textarea id="original" style="width:100%;height:200px;" placeholder="Contenido original completo"></textarea>
+
+  <p><strong>Paso 2:</strong> Pega aquí solo los requerimientos actualizados</p>
+  <textarea id="actualizaciones" style="width:100%;height:150px;" placeholder="Solo los requerimientos con cambios"></textarea>
+
+  <br><br>
+  <button onclick="fusionar()">Fusionar actualizaciones</button>
+
+  <h3>Resultado actualizado:</h3>
+  <textarea id="resultado" style="width:100%;height:300px;background:#e8f0ff;"></textarea>
+
+  <script>
+    function fusionar() {
+      try {
+        const originales = JSON.parse(document.getElementById('original').value);
+        const actualizados = JSON.parse(document.getElementById('actualizaciones').value);
+
+        const actualizadosPorId = {};
+        actualizados.forEach(req => actualizadosPorId[req.id] = req);
+
+        const fusionados = originales.map(req => {
+  if (actualizadosPorId[req.id]) {
+    const fusionado = { ...req, ...actualizadosPorId[req.id] };
+    if (!('detail' in fusionado)) {
+      fusionado.detail = "";
+    }
+    return fusionado;
+  }
+  // Si no fue actualizado, aún así garantizamos que tenga "detail"
+  if (!('detail' in req)) {
+    req.detail = "";
+  }
+  return req; // Sin cambios
+        });
+
+        document.getElementById('resultado').value = JSON.stringify(fusionados, null, 2);
+      } catch (e) {
+        alert("Error al procesar los datos: " + e.message);
+      }
+    }
+  </script>
+</body>
+</html>
