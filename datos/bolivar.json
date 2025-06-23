@@ -21,7 +21,7 @@
     "endDate": "17/06/2025",
     "observations": "Se acordó pasar informe actualizado a producción el martes para no afectar la migración S3",
     "unit": "Bolívar",
-    "detail": ""
+    "detail": "Se identificó que el informe actual presenta limitaciones cuando existen más de tres glosas, por lo cual se propuso el desarrollo de un nuevo informe que sea más claro y funcional."
   },
   {
     "id": "MDSB-820704",
