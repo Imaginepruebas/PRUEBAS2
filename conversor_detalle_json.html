@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de texto a campo JSON (detalle)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.5.1/mammoth.browser.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+    textarea { width: 100%; height: 200px; margin-bottom: 15px; font-family: monospace; }
+    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; margin-top: 5px; }
+    label { font-weight: bold; display: block; margin: 10px 0 5px; }
+    #previewBoxRaw, #previewBoxFormatted { border: 1px solid #ccc; padding: 10px; background: #f9f9f9; margin-top: 10px; }
+    #previewBoxFormatted { white-space: normal; }
+    #validacion { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Conversor: Texto plano a campo JSON con saltos de línea (\n) y vista con estilo</h2>
+
+  <input type="file" id="docInput" accept=".docx">
+  <button onclick="cargarDocx()">Cargar Word (.docx)</button>
+
+  <label for="entrada">Pega aquí el detalle o usa el botón anterior para cargar desde Word:</label>
+  <textarea id="entrada" placeholder="Escribe o pega aquí el contenido del requerimiento..."></textarea>
+
+  <button onclick="convertirTexto()">Convertir a JSON</button>
+  <button onclick="validarJSON()">Validar JSON</button>
+  <button onclick="copiarResultado()">Copiar al portapapeles</button>
+  <button onclick="cargarEjemplo()">Cargar ejemplo formateado</button>
+  <button onclick="cargarPlantilla()">Cargar plantilla vacía</button>
+
+  <label for="salida">Resultado (listo para pegar en el campo detail del JSON):</label>
+  <textarea id="salida" readonly></textarea>
+
+  <label>Vista previa en texto plano:</label>
+  <div id="previewBoxRaw"></div>
+
+  <label>Vista previa con formato como se mostrará en el informe:</label>
+  <div id="previewBoxFormatted"></div>
+
+  <div id="validacion"></div>
+
+  <script>
+    function cargarDocx() {
+      const fileInput = document.getElementById("docInput");
+      const reader = new FileReader();
+
+      if (!fileInput.files.length) return alert("Selecciona un archivo .docx");
+
+      reader.onload = function (event) {
+        const arrayBuffer = reader.result;
+        mammoth.convertToMarkdown({ arrayBuffer }, { convertImage: mammoth.images.none })
+          .then(function (result) {
+            let lines = result.value.split('\n');
+            let filteredLines = lines.filter(linea => {
+              const trimmed = linea.trim();
+              return !/^\!\[.*\]\(data:image\//.test(trimmed) &&
+                     !/^data:image\//.test(trimmed) &&
+                     !/^[A-Za-z0-9+/=]{200,}$/.test(trimmed); // línea sospechosamente larga en base64
+            });
+
+            let text = filteredLines
+              .join('\n')
+              .replace(/\*\*(.*?)\*\*/g, '**$1**')
+              .replace(/^\s*- /gm, '- ') // listas con viñetas
+              .replace(/^\s*\d+\. /gm, match => match.trim()) // listas numeradas
+              .replace(/\r/g, "")
+              .replace(/\n{2,}/g, "\n");
+
+            document.getElementById("entrada").value = text;
+            convertirTexto();
+          })
+          .catch(function (err) {
+            alert("Error al leer el archivo Word: " + err.message);
+          });
+      };
+
+      reader.readAsArrayBuffer(fileInput.files[0]);
+    }
+
+    function convertirTexto() {
+      let texto = document.getElementById("entrada").value;
+
+      texto = texto
+        .replace(/\r\n|\r|\n/g, '\n')
+        .split('\n')
+        .filter(linea => linea.trim() !== '')
+        .join('\n');
+
+      let convertido = texto.replace(/\\/g, "\\\\")
+                            .replace(/\n/g, "\\n")
+                            .replace(/"/g, '\\"');
+
+      document.getElementById("salida").value = '"' + convertido + '"';
+      document.getElementById("previewBoxRaw").innerText = texto;
+
+      const formateado = texto
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^- (.*)$/gm, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+
+      document.getElementById("previewBoxFormatted").innerHTML = formateado;
+      document.getElementById("validacion").innerText = '';
+    }
+
+    function copiarResultado() {
+      const salida = document.getElementById("salida");
+      salida.select();
+      document.execCommand("copy");
+      alert("Texto copiado al portapapeles.");
+    }
+
+    function validarJSON() {
+      const salida = document.getElementById("salida").value;
+      try {
+        JSON.parse('{"detail": ' + salida + '}');
+        document.getElementById("validacion").innerText = "✅ JSON válido";
+        document.getElementById("validacion").style.color = "green";
+      } catch (e) {
+        document.getElementById("validacion").innerText = "❌ JSON inválido: " + e.message;
+        document.getElementById("validacion").style.color = "red";
+      }
+    }
+
+    function cargarEjemplo() {
+      const ejemplo = [
+        "**REQ No.:** NEGOCIO",
+        "**Código:** 2025-004 PREVISIONALES",
+        "**RESPONSABLE:** Carlos Eduardo Rodriguez Medina",
+        "",
+        "**OBJETIVO:**",
+        "1. Desarrollar módulo de flujo de pago de Auxilios funerarios, con formalizaciones recibidas diariamente, integrada con validaciones realizadas a través de vistas generadas por Seguros de Vida Alfa SA.",
+        "",
+        "**FLUJO DE AUXILIO FUNERARIO:**",
+        "1. Desarrollar módulo donde interviene:",
+        "- Radicación (Maria del Pilar Casallas)",
+        "- Validación (Elizabet Tatiana Guerrero)",
+        "- Aprobación (Sandra Patricia Arteaga)",
+        "- Pago y Cierre (Elizabet Tatiana Guerrero)",
+        "",
+        "2. Tablas entregadas por Seguros de vida Alfa SA",
+        "",
+        "**APLICACIÓN VISTAS:**",
+        "- TIPO SINCRONIZACION 1",
+        "- SINCRONIZACION 2 CAMPOS",
+        "- PLUS V_IMAGINE_SINIESTROS_PLUS NUEVO 6:00 a. m. A petición del usuario realizar consulta por FECHA_CREACION para siniestros creados últimamente",
+        "- 2 meses no_siniestro"
+      ].join("\n");
+
+      document.getElementById("entrada").value = ejemplo.replace(/\n/g, "\n");
+      convertirTexto();
+    }
+
+    function cargarPlantilla() {
+      const plantilla = [
+        "**REQ No.:** [ID del requerimiento]",
+        "**Código:** [Código interno o nombre completo]",
+        "**RESPONSABLE:** [Nombre completo del responsable]",
+        "",
+        "**OBJETIVO:**",
+        "1. [Describe el objetivo general del requerimiento]",
+        "",
+        "**FLUJO DE ACTIVIDADES:**",
+        "- [Paso 1: Nombre o acción]",
+        "- [Paso 2: Nombre o acción]",
+        "- [Paso 3: Nombre o acción]",
+        "",
+        "**OBSERVACIONES ADICIONALES:**",
+        "- [Observación 1]",
+        "- [Observación 2]",
+        "",
+        "**VISTAS / SINCRONIZACIÓN:**",
+        "- [Vista o script relevante]",
+        "- [Otra vista o campo relacionado]"
+      ].join("\n");
+
+      document.getElementById("entrada").value = plantilla.replace(/\n/g, "\n");
+      convertirTexto();
+    }
+  </script>
+</body>
+</html>

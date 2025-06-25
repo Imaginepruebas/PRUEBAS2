@@ -6,7 +6,7 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
     textarea { width: 100%; height: 200px; margin-bottom: 15px; font-family: monospace; }
-    button { padding: 10px 20px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; }
     label { font-weight: bold; display: block; margin: 10px 0 5px; }
   </style>
 </head>
@@ -16,6 +16,7 @@
   <textarea id="entrada" placeholder="Pega aquí tu texto con fechas como 2025-06-24 o 24/06/2025..."></textarea>
 
   <button onclick="convertirTexto()">Convertir</button>
+  <button onclick="copiarTexto()">Copiar al portapapeles</button>
 
   <label for="salida">Texto convertido (listo para JSON):</label>
   <textarea id="salida" readonly></textarea>
@@ -24,14 +25,30 @@
     function convertirTexto() {
       let texto = document.getElementById("entrada").value;
 
-      // Asegura salto de línea antes de cada fecha y aplica corchetes
+      // Asegura salto de línea antes de cada fecha, con corchetes
       texto = texto.replace(/(\d{4}-\d{2}-\d{2})/g, '\n[$1]');
       texto = texto.replace(/(\d{2}\/\d{2}\/\d{4})/g, '\n[$1]');
 
-      // Limpia espacios en blanco duplicados
-      texto = texto.trim().replace(/\n+/g, '\n');
+      // Elimina líneas vacías y recorta espacios
+      texto = texto.split('\n')
+                  .map(linea => linea.trim())
+                  .filter(linea => linea.length > 0)
+                  .join('\n');
 
-      document.getElementById("salida").value = texto;
+      // Convierte cada salto de línea a \n para JSON
+      let jsonCompatible = texto.replace(/\\/g, "\\\\")
+                                .replace(/\n/g, "\\n")
+                                .replace(/"/g, '\\"');
+
+      // Muestra resultado con comillas (para copiar directo al campo "observations")
+      document.getElementById("salida").value = '"' + jsonCompatible + '"';
+    }
+
+    function copiarTexto() {
+      const salida = document.getElementById("salida");
+      salida.select();
+      document.execCommand("copy");
+      alert("Texto copiado al portapapeles.");
     }
   </script>
 </body>

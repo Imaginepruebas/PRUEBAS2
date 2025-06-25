@@ -29,23 +29,38 @@
         actualizados.forEach(req => actualizadosPorId[req.id] = req);
 
         const fusionados = originales.map(req => {
-  if (actualizadosPorId[req.id]) {
-    const fusionado = { ...req, ...actualizadosPorId[req.id] };
-    if (!('detail' in fusionado)) {
-      fusionado.detail = "";
-    }
-    return fusionado;
-  }
-  // Si no fue actualizado, aún así garantizamos que tenga "detail"
-  if (!('detail' in req)) {
-    req.detail = "";
-  }
-  return req; // Sin cambios
+          if (actualizadosPorId[req.id]) {
+            const actualizado = actualizadosPorId[req.id];
+            const fusionado = { ...req, ...actualizado };
+
+            // ✅ Fusión inteligente de observations
+            if (actualizado.observations) {
+              const anterior = req.observations || "";
+              const nuevo = actualizado.observations.trim();
+              fusionado.observations = anterior
+                ? anterior + "\\n" + nuevo
+                : nuevo;
+            }
+
+            // Garantizar que tenga 'detail'
+            if (!('detail' in fusionado)) {
+              fusionado.detail = "";
+            }
+
+            return fusionado;
+          }
+
+          // Si no fue actualizado, aún así garantizamos que tenga "detail"
+          if (!('detail' in req)) {
+            req.detail = "";
+          }
+
+          return req;
         });
 
         document.getElementById('resultado').value = JSON.stringify(fusionados, null, 2);
       } catch (e) {
-        alert("Error al procesar los datos: " + e.message);
+        alert("❌ Error al procesar los datos: " + e.message);
       }
     }
   </script>

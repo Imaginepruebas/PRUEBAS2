@@ -9,20 +9,22 @@
     "endDate": "16/06/2025",
     "observations": "Se notifica por parte del jefe de unidad inconsistencias en Vistas de las fuentes de información entregadas. Carecen de data necesaria, \n[09/06/2025]: El requerimiento fue pausado 12 mayo de 2025.\n [10/06/2025]: Hoy se definirá si se continúa con el desarrollo o continúa pausado.\n [11/06/2025]: Ya se cuenta con los permisos y el query para la vista. Se sincronizan las reclamaciones de Cifren, pero falta integrar las de Plus (montadas en AWS) y ajustar la identificación del origen de cada reclamación. Se estima que este requerimiento adicional tomará un día de trabajo Iniciando el 12 de Junio.\n [13/06/2025]: Se obtuvo respuesta positiva sobre permisos para acceder a la vista de Plus. Sin embargo, falta que la vista tenga datos reales para completar la sincronización.\n[16/06/2025]: Se completó la primera fase de validación y hoy se trabaja en la parte de gestión de pagos, cliente realizará pruebas hoy.\n[17/06/2025]: Se realizan en ajustes en la mañana de hallazgos reportados por el cliente tras las pruebas, y se entregarán al cliente para sus pruebas.\n[18/06/2025]: Se adaptó el grid y los reportes a los distintos roles/permisos. También se incorporaron nuevos campos a solicitud del cliente; pendiente Pruebas por el cliente.\n[19/06/2025]: Superó pruebas del cliente y se aprueba paso a producción para el día sábado 21 de Junio.",
     "unit": "Alfa",
-    "detail": ""
+    "detail": "",
+    "visible": true
   },
   {
-    "id": "PRV_2025_004",
-    "title": "AUXILIOS FUNERARIOS PAGO AUX. FUNERARIOS",
-    "assigned": "Mauricio Figueroa",
-    "state": "En Proceso",
-    "progress": 60,
-    "startDate": "19/06/2025",
-    "endDate": "25/06/2025",
-    "observations": "Cargue de formatos de formalización y consolidado 100%. Opción de edición y opción de histórico del flujo 100%. Se notifica por parte del jefe de unidad inconsistencias en Vistas de las fuentes de información entregadas. Carecen de data necesaria. 09/06/2025: El requerimiento fue pausado el 6 de junio de 2025. 16/06/2025: Se comenzarán el jueves 19 de junio. Ya se están creando las vistas necesarias para ese flujo. 19/06/2025: Inicio del desarrollo. 20/06/2025: No se pudo avanzar ayer 19 de junio por ajustes requeridos por el cliente para PRV_2025_001 VALIDACIÓN DE LOTE PARA PAGO, NOTIFICACIÓN DE PAGO, Se retomará desarrollo 24 de junio.",
-    "unit": "Alfa",
-    "detail": ""
-  },
+  "id": "PRV_2025_004",
+  "title": "AUXILIOS FUNERARIOS PAGO AUX. FUNERARIOS",
+  "assigned": "Mauricio Figueroa",
+  "state": "En Proceso",
+  "progress": 70,
+  "startDate": "19/06/2025",
+  "endDate": "25/06/2025",
+  "observations": "Cargue de formatos de formalización y consolidado 100%\nOpción de edición y opción de histórico del flujo 100%\nSe notifica por par parte del jefe de unidad inconsistencias en Vistas de las fuentes de información entregadas. Carecen de data necesaria\n[09/06/2025] :El requerimirneo fue  pausado  el 6 de junio de 2025.\n[16/06/2025]: Se comenzarán el jueves 19 de junio. Ya se están creando las vistas necesarias para ese flujo\n[19/06/2025]: Inicio del desarrollo.\n[20/06/2025]:No se pudo avanzar ayer 19 de junio por ajustes requeridos por el cliente para PRV_2025_001 VALIDACIÓN DE LOTE PARA PAGO,NOTIFICACIÓN DE PAGO,  Se retomara  desarrollo 24 de junio.\n[24/06/2025]: Se encuentra sincronizando data, se estiman 2 dias para finalizar.",
+  "unit": "Alfa",
+  "detail": "**REQ No.:** NEGOCIO\n**Código:** PRV-2025-004 AUXILIO FUNERARIO\n**RESPONSABLE:** Carlos Eduardo Rodriguez Medina\n\n**OBJETIVO:**\nDesarrollar módulo de flujo de pago de Auxilios funerarios, con formalizaciones recibidas diariamente, integrada con validaciones realizadas a través de vistas generadas por Seguros de Vida Alfa SA.\n\n**FLUJO DE AUXILIO FUNERARIO:**\n1. Desarrollar módulo donde intervienen las siguientes personas:\n- Radicación: Maria del Pilar Casallas\n- Validación: Elizabet Tatiana Guerrero\n- Aprobación: Sandra Patricia Arteaga\n- Pago y Cierre: Elizabet Tatiana Guerrero\n\n2. Tablas entregadas por Seguros de Vida Alfa SA\n\n**APLICACIÓN DE VISTAS:**\n- TIPO SINCRONIZACION 1\n- SINCRONIZACION 2 CAMPOS\n- PLUS V_IMAGINE_SINIESTROS_PLUS NUEVO 6:00 a. m.\n- Consulta por FECHA_CREACION para siniestros creados últimamente (2 meses sin siniestro)\n\n**VISTA ALFA:**\n- V_TABLA_GENERAL_CARGUE_DIARIO\n- V_TIPO_SINIESTRO_GENERAL\n- V_TIPO_SINIESTRO_PLUS\n- V_IMAGINE_SINIESTROS_PLUS\n\n**TABLAS DE APOYO:**\n- ESTADO AUXILIO\n- MOTIVO DEVOLUCIÓN\n- TIPO AUXILIO\n\n**MODULO DE CONSULTA:**\nConsulta por fechas y filtros de estado del auxilio funerario\n\n**NOTIFICACIONES AUTOMÁTICAS POR ESTADO:**\n1. Estado DEVUELTO → notifica al responsable de radicación\n2. Estado APROBADO → notifica a los de pago\n3. Estado PAGADO → confirma al responsable de cierre\n\n**ROLES INVOLUCRADOS:**\n- Radicador\n- Validador\n- Aprobador\n- Pagador\n- Coordinador Alfa",
+  "visible": true
+},
   {
     "id": "PRV_2025_009",
     "title": "DESARROLLO PREVISIONAL INCAPACIDADES",
@@ -33,7 +35,8 @@
     "endDate": "12/06/2025",
     "observations": "09/06/2025: El Objetivo Automatizar el cálculo de incapacidades en el sistema Imagine, replicando el proceso manual actual utilizado por los liquidadores y presentando los resultados en un formato claro y compatible con Excel. Iniciará con el desarrollo. 11/06/2025: Mauricio completó la función de cálculo y está terminando el formulario de consulta. Planea entregar el requerimiento completo hoy para subir a pruebas el jueves. 13/06/2025: Ya fue entregado en ambiente de pruebas para validación del cliente. Está funcionando correctamente y aplicando los cálculos según lo solicitado. 19/06/2025: Paso a producción para el 21 de junio.",
     "unit": "Alfa",
-    "detail": ""
+    "detail": "",
+    "visible": true
   },
   {
     "id": "PRV_2025_007",
@@ -45,7 +48,8 @@
     "endDate": "",
     "observations": "16/06/2025: Se requiere una sesión con Carlos, Jenry, Mauricio y Fabio para entender el detalle de validaciones. Aún no se tiene fecha ni estimación.",
     "unit": "Alfa",
-    "detail": ""
+    "detail": "",
+    "visible": false
   },
   {
     "id": "PRV_2025_005",
@@ -57,7 +61,8 @@
     "endDate": "",
     "observations": "11/06/2025: Continuará con el desarrollo tras finalizar req PRV_2025_007 CÁLCULO IBL",
     "unit": "Alfa",
-    "detail": ""
+    "detail": "",
+    "visible": false
   },
   {
     "id": "PRV_2025_001-2",
@@ -69,6 +74,7 @@
     "endDate": "19/06/2025",
     "observations": "El 16 de junio se inicia desarrollo con fecha estimada de finalización 18 de junio. 18/06/2025: El 17 de junio se desarrollan dos informes adicionales: tesorería y porvenir, con definición de estructura en curso. 19/06/2025: Entrega al cliente para pruebas 19 de junio, Cliente solicita ajuste de vistas y campos necesarios para el proceso.",
     "unit": "Alfa",
-    "detail": ""
+    "detail": "",
+    "visible": true
   }
 ]

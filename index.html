@@ -402,6 +402,8 @@ console.log("Cargando archivos JSON:", archivos);
 
         // Renderizar Resumen Ejecutivo
         function updateSummary(filteredTasks = tasks) {
+            //Excluir tareas marcadas como no visibles
+            filteredTasks = filteredTasks.filter(t => t.visible !== false);
             const resumenContent = document.getElementById('resumenContent');
             const totalTasks = filteredTasks.length;
 
@@ -423,6 +425,7 @@ console.log("Cargando archivos JSON:", archivos);
        
                 // Renderizar Tareas
         function renderTasks(filteredTasks = tasks) {
+            filteredTasks = filteredTasks.filter(task => task.visible !== false);
             const taskList = document.getElementById('taskList');
             taskList.innerHTML = '';
             if (filteredTasks.length === 0) {
@@ -446,13 +449,13 @@ console.log("Cargando archivos JSON:", archivos);
     <div class="detail-toggle">
     <a href="#" class="toggle-detail-text" data-id="${task.id}">[+] Ver Detalle Requerimiento</a>
     <div id="detail-text-${task.id}" class="detail-text" style="display: none; margin-top: 5px;">
-        <p>${task.detail || 'Sin detalle registrado.'}</p>
+      <div class="detail-text">${formatearDetalle(task.detail)}</div>
     </div>
 </div>
     <p><strong>Observaciones:</strong><br>
    <pre style="white-space: pre-wrap; font-family: inherit;">
-${task.observations.replace(/\[(.*?)\]/g, '<strong>$1</strong>')}
-</pre
+${(task.observations || '').replace(/\[(.*?)\]/g, '<strong>$1</strong>')}
+</pre>
 
     </p>
     
@@ -492,6 +495,8 @@ document.querySelectorAll('.toggle-detail-text').forEach(link => {
 
         // Renderizar Estadísticas
         function updateStatistics(filteredTasks = tasks) {
+            // ➤ Filtro para excluir requerimientos invisibles
+    filteredTasks = filteredTasks.filter(task => task.visible !== false);
             const estadisticasContent = document.getElementById('estadisticasContent');
             estadisticasContent.innerHTML = ''; // Limpia el contenido
 
@@ -531,6 +536,8 @@ document.querySelectorAll('.toggle-detail-text').forEach(link => {
 
         // --- Funciones para Gráficos ---
         function plotPieChart(filteredTasks = tasks) {
+             // ⬇️ Filtro para excluir tareas no visibles
+            filteredTasks = filteredTasks.filter(task => task.visible !== false);
             document.getElementById('loadingPie').style.display = 'block';
             const pieChartDiv = document.getElementById('pie-chart');
             pieChartDiv.style.display = 'none'; // Ocultar mientras carga
@@ -576,6 +583,8 @@ document.querySelectorAll('.toggle-detail-text').forEach(link => {
         }
 
         function plotBarChart(filteredTasks = tasks) {
+            // Filtro para excluir tareas invisibles
+            filteredTasks = filteredTasks.filter(task => task.visible !== false);
             document.getElementById('loadingBar').style.display = 'block';
             const barChartDiv = document.getElementById('bar-chart');
             barChartDiv.style.display = 'none';
@@ -618,6 +627,8 @@ document.querySelectorAll('.toggle-detail-text').forEach(link => {
         }
 
         function plotAssignmentsChart(filteredTasks = tasks) {
+             // Excluir tareas invisibles
+            filteredTasks = filteredTasks.filter(task => task.visible !== false);
             document.getElementById('loadingAssignments').style.display = 'block';
             const assignmentsChartDiv = document.getElementById('assignments-chart');
             assignmentsChartDiv.style.display = 'none';
@@ -805,7 +816,15 @@ document.querySelectorAll('.toggle-detail-text').forEach(link => {
             initializeReport();
             applyFilters();
         });
+function formatearDetalle(texto) {
+  if (!texto) return 'Sin detalle registrado.';
 
+  return texto
+    .replace(/\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.*)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+}
     </script>
 <!-- <script>
 
