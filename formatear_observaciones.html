@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Convertir texto con fechas a formato de observaciones</title>
+  <title>Convertir texto con fechas a formato JSON de observaciones</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
     textarea { width: 100%; height: 200px; margin-bottom: 15px; font-family: monospace; }
-    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; }
+    button { padding: 10px 20px; font-size: 16px; }
     label { font-weight: bold; display: block; margin: 10px 0 5px; }
   </style>
 </head>
@@ -18,14 +18,14 @@
   <button onclick="convertirTexto()">Convertir</button>
   <button onclick="copiarTexto()">Copiar al portapapeles</button>
 
-  <label for="salida">Texto convertido (listo para JSON):</label>
+  <label for="salida">Texto convertido (listo para JSON en CSV):</label>
   <textarea id="salida" readonly></textarea>
 
   <script>
     function convertirTexto() {
       let texto = document.getElementById("entrada").value;
 
-      // Asegura salto de línea antes de cada fecha, con corchetes
+      // Asegura salto de línea antes de cada fecha, con corchetes si no los tiene
       texto = texto.replace(/(\d{4}-\d{2}-\d{2})/g, '\n[$1]');
       texto = texto.replace(/(\d{2}\/\d{2}\/\d{4})/g, '\n[$1]');
 
@@ -35,12 +35,11 @@
                   .filter(linea => linea.length > 0)
                   .join('\n');
 
-      // Convierte cada salto de línea a \n para JSON
-      let jsonCompatible = texto.replace(/\\/g, "\\\\")
-                                .replace(/\n/g, "\\n")
-                                .replace(/"/g, '\\"');
+      // Escapa los saltos de línea y comillas para JSON
+      let jsonCompatible = texto.replace(/\n/g, "\\n");
+      jsonCompatible = jsonCompatible.replace(/"/g, '\\"');
 
-      // Muestra resultado con comillas (para copiar directo al campo "observations")
+      // Resultado listo para usar
       document.getElementById("salida").value = '"' + jsonCompatible + '"';
     }
 
