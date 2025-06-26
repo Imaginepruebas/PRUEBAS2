@@ -371,5 +371,65 @@
     "observations": " ",
     "unit": "Bolívar",
     "detail": ""
-  } 
+  },
+  {
+    "id": "Interno",
+    "title": "Apertura de flujo de 4 casos de Preautorizaciones poliza salud - delegacion analistas creados con una sola actividad",
+    "assigned": "JESUS PEÑA",
+    "state": "En Proceso",
+    "progress": 0,
+    "startDate": "25/06/2025",  
+    "endDate": " ",
+    "observations": " ",
+    "unit": "Bolívar",
+    "detail": ""
+  },
+  {
+    "id": "INTERNO",
+    "title": "Radicación Express con IA",
+    "assigned": "DANILO RAMIREZ",
+    "state": "En Test",
+    "progress": 90,
+    "startDate": "27/02/2025",
+    "endDate": "28/04/2025",
+    "observations": "[28/02/2025]: modificó el script para entrenar con lenguaje natural; el modelo propio (basado en Verner) reconoce respuestas rápidas (ej. segunda opinión médica) tras retirar el destilado. Es ligero y responde rápido. Planea ajustar, subir a dev/test y usar una base preentrenada para optimizar.\n[03/03/2025]: El viernes 28  se subieron las modificaciones  a un repositorio, pero aún falta un cambio que planea terminar y desplegar hoy, tras ajustes adicionales que retrasaron el despliegue inicial a dev y test.\n[04/03/2025]: Ajustó el algoritmo del modelo (impresión y entrenamiento) el día anterior, subiendo los cambios al repositorio, pero falta un ajuste en el API para desplegarlo, ya que se alojará en un servidor distinto al de Oficina Virtual por limitaciones de capacidad; espera terminarlo pronto.\n[05/03/2025]: No ha avanzado más en Radicación Express por priorizar el API de Recobros  habló con Jenry sobre cambios adicionales y planea retomarlo tras finalizar el API esta semana.\n[06/03/2025]: Trabajó en una modificación para Radicación Express, pero no la finalizó por requerir más cambios; no dio más detalles ni avances significativos.\n[07/03/2025]: Se detiene ya que se dedicara al API de recobros.\n[10/03/2025]: Detenido ya que se encuentra trabajando en la Lectura de incapacidadaes por Python\n[12/03/2025] : Si es posible y se da el espacio en la sesion de presentación del API de recobros se realizara presentación de este requerimiento.\n[14/03/2025]: Ayer se presentó el avance del proyecto al cliente y Se realizó un ajuste en la implementación, cambiando el modelo de multi-language a una versión en español para mejorar el rendimiento. Este cambio impactó parcialmente el entrenamiento, pero se espera recuperar la estabilidad durante la semana.\n[17/03/2025]: El viernes avanzó en Radicación Express, resolviendo problemas menores, y ajustó la lógica para llevar al usuario al segundo o tercer paso tras confirmar; hoy sigue dedicado a esto, ajustando los datos enviados al formulario para finalizar esa parte.\n[18/03/2025]: Terminó la integración del formulario de Radicación Express con autorizaciones médicas, autocompletando datos (ciudad, IPS, médico) si están completos o dejando en el primer paso si no; hoy subirá los cambios tras reunirse con Jenry para validar o ajustar.\n[19/03/2025]:  Desplegó Radicación Express en test, pero enfrentó problemas de capacidad en el servidor para entrenar el modelo (100 registros fallaron); ajustó el entrenamiento a un registro cada 15 minutos, logrando 3-4 ejemplos ayer, y hoy seguirá entrenando y ajustando.\n[20/03/2025]:Verificó el modelo ayer, ajustó un fallo donde Python mataba el proceso a la mitad, y continuó el entrenamiento (pocos ciclos aún); hoy planea alcanzar 100 ciclos con registros diferentes.\n[21/03/2025]: Revisó el entrenamiento del modelo, que ya superó 100 ejemplos sin problemas ayer; hoy seguirá monitoreando y avanzando en el entrenamiento\n[27/03/2025]: El modelo ya se entrenó con los casos previos y reconoce información; hoy buscará tiempo para añadir 200 registros más para entrenar entre hoy y mañana.\n[28/03/2025]: Ayer  no adiocno\n[28/03/2025]: No revisada ayer por falta de tiempo; hoy planea agregar 500 registros para entrenar y retomar el avance.\n[31/03/2025]: El viernes agregó 173 ejemplos más (total 473 casos); el modelo entrena bien, reconoce 4 de 5 casos con léxico colombiano; hoy o mañana terminará esta tanda y planea sumar 500 registros más.\n[01/04/2025]: Ayer insertó nuevos registros para entrenar el modelo esta semana.\n[09/04/2025]:  Entrenado con 800 casos, listo en test para pruebas por Santiago o usuarios; hoy se entregará oficialmente para pruebas por el cliente, con entrenamiento continuo; estiman 8 días para producción si se prioriza.\n[28/04/2025]: Se entrega para  TEST",
+    "unit": "Bolívar",
+    "detail": ""
+    },
+            {
+                "id": "INTERNO",
+                "title": "Lectura de incapacidades por Python",
+                "assigned": "DANILO RAMIREZ",
+                "state": "Entrenamiento",
+                "progress": 95,
+                "startDate": "14/02/2025",
+                "endDate": "",
+                "observations": "[14/02/2025]  Se encuentra ajustando cambio de OCR para minimizar el tiempo de lectura realizando entrenamiento.\n[17/02/2025] Se realizo cambio de OCR, y pruebas\n[18/02/2025] ajustar un modelo diferente a ollama para mejorar la lectura del OCR.\n[19/02/2025] Continuara con los ajustes\n[20/02/2025] Realizar ajustes para hacer una entrega parcial hoy\n[21/02/2025]  En pruebas de entrenamiento al nuevo modelo.\n[24/02/2025]  Organizar datos y consultas e implementarlos en el entrenamiento del modelo para posteriormente pasar a produccion.\n[25/02/2025] Se adelanta las consultas par la construccion del dataset para entrenar el modelo (Bert), despues de terminar la construccion serla a los ambientes y comenzar con el entrenamiento.\n[26/02/2025] Se re ealiza despliegue a produccion el 25 de febrero, se realizara una modificacion  en el dataset  desplegarla  a produccion  para que se encuentre lista para usar, realizar pruebas e iniciar  entrenamiento en las noche.\n[26/02/2025]: Se suben a produccion las modificaciones y al iniciar  el entrenamiento del modelo se presentaron varios inconveniestes encuanto a nombres de facientes y fechas con la data de produccion para lo cual se debio ajustar el dataset.\n[27/02/2025]:se le daran tres ciclos de incapacidades y a medio dia validar cual fue el nivle de aprendizaje.\n[28/02/2025]:Culminó una etapa del modelo, entrenándolo con 2 ciclos (20 registros cada uno), logrando identificar nombre del paciente, fechas y número de incapacidades. Planea entrenar con un dataset más grande en la noche (por uso de RAM) y mejorar la clasificación con datos existentes\n[04/03/2025]: Ayer ajusto los scripts de entrenamiento para que esta semana se pueda entrenar más rápido el modelo.\n[05/03/2025]: Las últimas modificaciones se subieron el viernes 28 de febrero, el modelo se entrena en la noche y los fines de semana cada 6 horas con dataset construido dos horas antes; revisará resultados la próxima semana para evaluar el entrenamiento.\n[10/03/2025]; Se encuentra realizando validaciones a los resutados del entrenamiento de la semana anterior y mejorando el regex mientras el modelo mejora su entrenamiento.\n[11/03/2025]: Está trabajando en un tab para el portal de incapacidades que muestre la información leída por el modelo de IA; planea avanzar lo más posible hoy o terminarlo, sin bloqueos ni dudas reportadas.\n[12/03/2025]: Ya se encuentra ajustado el algorimo de la lectura y se guarda la  información en una tabla para mostrar la información extraida en el aplicativo de incapacidades, hoy se ajustara la vista para mostrar la  información en la consulta de incapacidades.\n[13/03/2025]: Ayer finalizó una vista para mostrar la información procesada por el modelo de IA, con ajustes adicionales completados; hoy espera definir prioridades tras una reunión de las 9 a.m.\n[14/03/2025]: Se presentó el avance del proyecto a un grupo de personas, generando gran interés Se resolvieron dudas sobre la tecnología y se trabajará en una versión más completa.\n[18/03/2025]:  No está trabajando activamente en esto; el modelo se entrena en la noche con un dataset de imágenes, pero con pocos casos aún para mejorar efectividad, y planea revisar pronto el porcentaje de precisión.\n[28/03/2025]: No le dedicó tiempo ayer; hoy buscará agregar más registros para entrenar el modelo.\n[01/04/2025]: Revisó el modelo ayer; avanza poco, pero ajustó el entrenamiento para que sea más rápido sin afectar el servidor; entrena cada 6 horas los fines de semana para aprovechar recursos.\n[09/04/2025]: Entrenado lentamente por recursos limitados (pocos ciclos para no afectar el servidor); lleva 15-20 días así, hoy revisarán su efectividad para decidir si ajustar o buscar alternativas.\n[28/04/2025] :se estima revisar nuevamene el 20 de mayo o antes si nilo lo estima\n[14/05/2025] : Se correra un comando para revisar el estado de lectura de incapacidades, medir el avance del entrenamiento y validar los resultados obtenidos.\n[19/05/2025] : No se pudo validar completamente el avance debido a una caída del servidor ocasionada por falta de direcciones IP, un problema que no había ocurrido anteriormente, validara hoy el avance\n[21/05/2025] : El 19 de mayo,Se modifico el OCR  para mejorar la lectura y confirma que ha alcanzado una efectividad del 85%.\n[28/05/2025]: Falta un detalle menor para terminar la integración de la información extraída sobre incapacidades. Planea cerrarlo hoy.\n[30/05/2025]: El 28 de mayo  Se implementó la ejecución automática de solicitudes de incapacidades a partir de la lectura con IA. Se visualiza en una pestaña separada para mostrar resultados al cliente. Se discutió que, aunque Bolívar no usa actualmente los datos extraídos, la información será útil para validaciones futuras.\n[11/06/2025]: los porcentajes de efectividad no superan el 50 % en pruebas recientes. En casos revisados, los valores más comunes rondan el 37 %, incluso en incapacidades actuales. Se recomienda revisar la calidad de los documentos fuente y optimizar la lógica de extracción\n[13/06/2025]:No se ha podido validar el rendimiento del modelo",
+                "unit": "Bolívar",
+                "detail": ""
+           },
+            {
+                "id": "INTERNO",
+                "title": "Realizar Imagen de docker de nativo para Jesus",
+                "assigned": "WILSON APONTE",
+                "state": "Pendiente",
+                "progress": 0,
+                "startDate": "",
+                "endDate": "",
+                "observations": "[27/02/2025]: No se ha podido realizar  debido que se encuentra en otras tareas asignadas.\n[16/06/2025]: Se reasigna tarea a Jesus debido a que Wilson  se encuentra en desarrollo de otra actividad.",
+                "unit": "Bolívar",
+                "detail": ""
+            },
+            {
+                "id": "INTERNO",
+                "title": "Ajustar los portales para ser responsive",
+                "assigned": "DANILO RAMIREZ",
+                "state": "Pausado",
+                "progress": 5,
+                "startDate": "05/05/2025",
+                "endDate": "",
+                "observations": "[07/05/2025] : se inicia el lunes con el desarrollo de los compos responsive en los portales. Danilo esta a medios tiempos  combinando con Proteccion\n[12/05/2025] : Se define  y continuar  despues  de realizar  el req Lectura de nuevos datos de ordenes medicas  con IA\n[28/05/2025]: Continuara pausado dando prioridad al req GD772-109 Lectura de nuevos datos de ordenes medicas  con IA con el fin de dejarlo terinado antes de salir a vacaiones el martes 3 de Junio.",
+                "unit": "Bolívar",
+                "detail": ""
+            }
 ]
