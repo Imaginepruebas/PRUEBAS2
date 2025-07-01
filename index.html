@@ -225,9 +225,9 @@
                             <label for="unidadFiltro">Filtrar por Unidad:</label>
                             <select id="unidadFiltro" class="form-select form-select-sm">
                                 <option value="">Todas</option>
-                                <option value="Bolívar">Bolívar</option>
-                                <option value="Alfa">Alfa</option>
-                                <option value="Protección">Protección</option>
+                                <option value="Varbo">Varbo</option>
+                                <option value="Fala">Fala</option>
+                                <option value="Cionpro">Cionpro</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -302,7 +302,7 @@
         document.title = `Informe Interactivo - Reporte ${formattedDate}`;
         document.getElementById('reportDate').textContent = formattedDate;
      </script>
-     <script>        // Estructura de datos JSON con unidades Bolívar, Protección o Alfa
+     <script>        // Estructura de datos JSON con unidades Bolívar, Protección o Fala
   let tasks = [];
 
   const archivos = [
@@ -331,14 +331,14 @@ console.log("Cargando archivos JSON:", archivos);
             "Entrenamiento": '#2ca02c',
             "Pruebas Imagine": '#ff7f0e',
             "En Test": '#d62728',
-            "Pruebas Bolívar": '#9467bd',
+            "Pruebas Varbo": '#9467bd',
             "Pendiente": '#8c564b',
-            "Pendiente Bolívar": '#e377c2', // Ejemplo: si tuvieras este estado
+            "Pendiente Varbo": '#e377c2', // Ejemplo: si tuvieras este estado
             "Pausado": '#bcbd22',
-            "Detenido Bolívar": '#17becf',
+            "Detenido Varbo": '#17becf',
             "Estimar": '#ff9896',
             "Finalizado": '#ffbb78',
-            "Pruebas Alfa": '#c5b0d5' // Nuevo estado para 'PRUEBAS ALFA'
+            "Pruebas Fala": '#c5b0d5' // Nuevo estado para 'PRUEBAS ALFA'
         };
 
 
@@ -410,7 +410,7 @@ console.log("Cargando archivos JSON:", archivos);
             // Contar estados, asegurando que las capitalizaciones de tus datos coincidan con tus claves de stateColors.
             // Para ser más robusto, se podría normalizar el estado a minúsculas antes de contar.
             const inProgress = filteredTasks.filter(t => ["En Proceso", "Entrenamiento", "Pruebas Imagine", "Paso a Producción", "En Test", "Estimar"].includes(t.state)).length;
-            const pending = filteredTasks.filter(t => ["Pendiente", "Pausado", "Detenido Bolívar", "Pruebas Bolívar", "Pruebas Alfa"].includes(t.state)).length;
+            const pending = filteredTasks.filter(t => ["Pendiente", "Pausado", "Detenido Varbo", "Pruebas Varbo", "Pruebas Fala"].includes(t.state)).length;
             const completed = filteredTasks.filter(t => t.state === "Finalizado").length;
             const avgProgress = totalTasks > 0 ? filteredTasks.reduce((sum, t) => sum + t.progress, 0) / totalTasks : 0;
 

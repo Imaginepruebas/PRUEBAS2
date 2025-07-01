@@ -8,7 +8,7 @@
     "startDate": "17/06/2025",
     "endDate": "19/06/2025",
     "observations": "[19/06/2025] Se produjeron ciertos errores en la fase de pruebas y se realizaron todas las correcciones para que el nuevo funcionamiento responda y se acople bien",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": ""
   },
   {
@@ -20,7 +20,7 @@
     "startDate": "19/06/2025",
     "endDate": "19/06/2025",
     "observations": "[19/06/2025] Se identifico el código a intervenir y con el que trabajar en el requerimiento",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": "Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
@@ -32,7 +32,7 @@
     "startDate": "20/06/2025",
     "endDate": "25/06/2025",
     "observations": "[20/06/2025]: Identificación y paso del flujo para la funcionalidad de indexación de lotes de PHP a python\n[24/06/2025]: Se tiene identificado el código necesario para la migración y se avanza en ella. Se han tenido muchos requerimientos adicionales actualmente por lo que se retrasa un poco en su construcción\n[25/06/2025]: Se termina la migracion a python para el flujo de la funcionalidad de indexar lote y se realizaron pruebas de funcionalidad",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": ""
   },
   {
@@ -44,7 +44,7 @@
     "startDate": "",
     "endDate": "26/06/2025",
     "observations": " ",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": ""
   },
   {
@@ -56,7 +56,7 @@
     "startDate": "24/06/2025",
     "endDate": "24/06/2025",
     "observations": "Actividad: Reunión con las partes interesadas para identificar los inputs de trabajo.",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": " Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
@@ -68,20 +68,20 @@
     "startDate": "24/06/2025",
     "endDate": "24/06/2025",
     "observations": "[24/06/2025]: El requerimiento esta en pauisa hasta que se identifique la viabilidad de la reforma pensional",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": " Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
     "id": "REQ-2",
-    "title": "Creación de reporte de AUF para identificación de pagos (Creación de script para crear reporte de pagos de auxilios funerarios y la vista para su consumo)",
+    "title": "Creación de reporte de AUF para identificación de pagos (Modificación de reporte para incluir información cruzada desde otro flujo de información)",
     "assigned": "Alejandro Cardona Ocampo",
     "state": "En proceso",
-    "progress": 75,
-    "startDate": "1/07/2025",
-    "endDate": "",
-    "observations": "[24/06/2025]: Se realiza reunión para la identificación de nuevos requisitos \n[01/07/2025]: Se realiza vista para el consumo y parte de la lógica para la creación del reporte, Se está a la espera de validar la información del reporte debido a que se nos envía 2 reportes con estructuras distintas.",
-    "unit": "Cionpro",
-    "detail": " Creación de reporte para consultar los pagos de auxilios funerarios"
+    "progress": 0,
+    "startDate": "24/06/2025",
+    "endDate": "25/06/2025",
+    "observations": "[24/06/2025]: Se realiza reunión para la identificación de nuevos requisitos",
+    "unit": "Protección",
+    "detail": " Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
     "id": "REQ-3",
@@ -92,7 +92,7 @@
     "startDate": "24/06/2025",
     "endDate": "24/06/2025",
     "observations": "[24/06/2025]: Se realiza reunión para realización de pruebas e identificación de requerimientos",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": " Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
@@ -103,8 +103,8 @@
     "progress": 30,
     "startDate": "25/06/2025",
     "endDate": " ",
-    "observations": "[25/06/2025]: Se realizan validaciones de pruebas de servicios generados desde Cionpro \n[26/06/2025]: Se realizan validaciones para pruebas de servicios generados desde Cionpro.",
-    "unit": "Cionpro",
+    "observations": "[25/06/2025]: Se realizan validaciones de pruebas de servicios generados desde protección",
+    "unit": "Protección",
     "detail": " Migración de servicios y tecnologías para cumplir con requerimientos de seguridad y calidad"
   },
   {
@@ -116,19 +116,7 @@
     "startDate": "26/06/2025",
     "endDate": " ",
     "observations": " ",
-    "unit": "Cionpro",
+    "unit": "Protección",
     "detail": " "
-  },
-  {
-    "id": "REQ-3-1",
-    "title": "Cambios técnicos en aplicativo imagine para proceso de mesa de control documental solicitud de pensión",
-    "assigned": "Alejandro Cardona Ocampo",
-    "state": "En proceso",
-    "progress": 75,
-    "startDate": "26/06/2025",
-    "endDate": " ",
-    "observations": "[26/06/2025]: Se construye nuevo método de consumo y la lógica para tratamiento de trámites para cerrar mesa unificada, Se cierra bandeja de mesa unificada,Se realizan preubas de consumo al nuevo método del servicio",
-    "unit": "Cionpro",
-    "detail": "Desarrollo de la mesa de validación documental con inteligencia artificial en Filenet  implica las siguiente es actividades:\r\nSe debe retirar la bandeja de imagine Validación Mesa de Control Unificada ya que la validación de documentos se realizará a través de filenet.\r\nDado que se requiere conservar otras funciones adicionales a la bandeja de validación en el software de imagine que depende de la validación documental, se les notificara a través del siguiente web service cada vez que una solicitud documental (Paquete de documentos relacionado a los diferentes riesgos) haya finalizado el proceso de validación.\r\n"
   }
 ]
