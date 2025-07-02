@@ -72,19 +72,19 @@
     "detail": " Se está a la espera de la solicitud formal por parte del cliente"
   },
   {
-    "id": "REQ-2",
+    "id": "REQ-2-1",
     "title": "Creación de reporte de AUF para identificación de pagos (Creación de script para crear reporte de pagos de auxilios funerarios y la vista para su consumo)",
     "assigned": "Alejandro Cardona Ocampo",
-    "state": "En proceso",
-    "progress": 75,
+    "state": "En Test",
+    "progress": 80,
     "startDate": "1/07/2025",
-    "endDate": "",
-    "observations": "[24/06/2025]: Se realiza reunión para la identificación de nuevos requisitos \n[01/07/2025]: Se realiza vista para el consumo y parte de la lógica para la creación del reporte, Se está a la espera de validar la información del reporte debido a que se nos envía 2 reportes con estructuras distintas.",
+    "endDate": "1/07/2025",
+    "observations": "[24/06/2025]: Se realiza reunión para la identificación de nuevos requisitos \n[01/07/2025]: Se realiza vista para el consumo y parte de la lógica para la creación del reporte, Se está a la espera de validar la información del reporte debido a que se nos envía 2 reportes con estructuras distintas.\n[02/07/2025]: Se realiza paso test el 1 de julio",
     "unit": "Cionpro",
-    "detail": " Creación de reporte para consultar los pagos de auxilios funerarios"
+    "detail": " Creación de Herramientas adicionales para el tratamiento de información y flujo en el módulo de auxilios funerarios"
   },
   {
-    "id": "REQ-3",
+    "id": "REQ-3-1",
     "title": "Cambios técnicos en aplicativo imagine para proceso de mesa de control documental solicitud de pensión (Reunión con las partes interesadas para identificación de requerimientos)",
     "assigned": "Alejandro Cardona Ocampo",
     "state": "Finalizado",
@@ -130,5 +130,29 @@
     "observations": "[26/06/2025]: Se construye nuevo método de consumo y la lógica para tratamiento de trámites para cerrar mesa unificada, Se cierra bandeja de mesa unificada,Se realizan preubas de consumo al nuevo método del servicio",
     "unit": "Cionpro",
     "detail": "Desarrollo de la mesa de validación documental con inteligencia artificial en Filenet  implica las siguiente es actividades:\r\nSe debe retirar la bandeja de imagine Validación Mesa de Control Unificada ya que la validación de documentos se realizará a través de filenet.\r\nDado que se requiere conservar otras funciones adicionales a la bandeja de validación en el software de imagine que depende de la validación documental, se les notificara a través del siguiente web service cada vez que una solicitud documental (Paquete de documentos relacionado a los diferentes riesgos) haya finalizado el proceso de validación.\r\n"
+  },
+  {
+    "id": "REQ-2-2",
+    "title": "Creación de reporte de AUF para identificación de pagos (**Creación de script para generar opción de consulta de pagos**)",
+    "assigned": "Alejandro Cardona Ocampo",
+    "state": "En proceso",
+    "progress":25,
+    "startDate": "1/07/2025",
+    "endDate": "",
+    "observations": "",
+    "unit": "Cionpro",
+    "detail": " Creación de Herramientas adicionales para el tratamiento de información y flujo en el módulo de auxilios funerarios"
+  },
+  {
+    "id": "REQ-2-3",
+    "title": "Creación de reporte de AUF para identificación de pagos (**Creación de script para generar opción en el de cargue y procesado de datos**)",
+    "assigned": "Alejandro Cardona Ocampo",
+    "state": "En proceso",
+    "progress":0,
+    "startDate": "1/07/2025",
+    "endDate": "",
+    "observations": "[02/07/2025]: Se realiza reunión el 1 de julio para la identificación de nuevos requisitos.",
+    "unit": "Cionpro",
+    "detail": " Creación de Herramientas adicionales para el tratamiento de información y flujo en el módulo de auxilios funerarios"
   }
 ]
