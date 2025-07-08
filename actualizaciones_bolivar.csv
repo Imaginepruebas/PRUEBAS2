@@ -1,3 +1,0 @@
-id;title;assigned;state;progress;startDate;endDate;observations;unit
-MDSB-002;Req prueba finalización;JUAN PÉREZ;Finalizado;100;20/06/2025;24/06/2025;Liberado en producción el 24 de junio;Bolívar
-MDSB-007;Validación funcional;ANA MARTÍNEZ;En Test;75;18/06/2025;;En validación funcional;Bolívar
