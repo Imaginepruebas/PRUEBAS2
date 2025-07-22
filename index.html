@@ -672,7 +672,7 @@
           barChartDiv.style.display = 'block';
           return;
         }
-        const inProgressTasks = filteredTasks.filter(t => t.state.toLowerCase() === 'en proceso');
+        const inProgressTasks = filteredTasks.filter(t => t.state && t.state.toLowerCase() === 'en proceso');
         const ids = inProgressTasks.map(task => task.id);
         const progresses = inProgressTasks.map(task => task.progress);
         const titles = inProgressTasks.map(task => task.title);
