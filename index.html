@@ -1226,32 +1226,7 @@ function convertirFecha(fechaStr) {
         </div>
       </div>
     </div>
-    <!-- ... otras partes de tu HTML -->
-
-<!-- Justo antes de cerrar el body -->
-<script>
-  const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycb.../exec"; // tu URL aquí
-
-  async function obtenerRequerimientosDesdeHoja() {
-    try {
-      const respuesta = await fetch(URL_GOOGLE_SHEETS);
-      const datos = await respuesta.json();
-
-      console.log("Requerimientos obtenidos desde la hoja:", datos);
-
-      datos.forEach((item, index) => {
-        console.log(`${index + 1}. ID: ${item["ID del Requerimiento"]}, Título: ${item["Título"]}`);
-      });
-
-    } catch (error) {
-      console.error("Error al obtener los datos de la hoja:", error);
-    }
-  }
-
-  // Ejecutar al cargar la página
-  document.addEventListener("DOMContentLoaded", obtenerRequerimientosDesdeHoja);
-</script>
-
+   
 </body>
 </html>
   </body>
