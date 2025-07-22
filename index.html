@@ -357,7 +357,7 @@
         'datos/proteccion.json',
         'datos/alfa.json',
         'datos/Colmedica.json',
-        'https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1";'
+        'https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1'
       ];
       console.log("Cargando archivos JSON:", archivos);
       Promise.all(archivos.map(url => fetch(url).then(r => {
@@ -1235,7 +1235,7 @@ function convertirFecha(fechaStr) {
   const API_URL = "https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1";
 
   async function cargarObservaciones() {
-    try {
+    try { 
       const respuesta = await fetch(API_URL);
       const datos = await respuesta.json();
       console.log("Datos recibidos:", datos);
