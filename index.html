@@ -357,7 +357,7 @@
         'datos/proteccion.json',
         'datos/alfa.json',
         'datos/Colmedica.json',
-        'https://script.google.com/macros/s/AKfycbzbetvwxMGJs9p3y2zlYgE4xOXyY352Ge0Ds8b2u2DiOYuTZyDMp2PkSwNS43OfbL_t/exec'
+        'https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1";'
       ];
       console.log("Cargando archivos JSON:", archivos);
       Promise.all(archivos.map(url => fetch(url).then(r => {
@@ -1232,7 +1232,7 @@ function convertirFecha(fechaStr) {
 <div id="contenedorDatos">Cargando datos desde Google Sheets...</div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbzbetvwxMGJs9p3y2zlYgE4xOXyY352Ge0Ds8b2u2DiOYuTZyDMp2PkSwNS43OfbL_t/exec";
+  const API_URL = "https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1";
 
   async function cargarObservaciones() {
     try {
