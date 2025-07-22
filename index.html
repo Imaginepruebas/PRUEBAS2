@@ -1227,8 +1227,35 @@ function convertirFecha(fechaStr) {
         </div>
       </div>
     </div>
-   
+   <!-- Contenedor para mostrar las observaciones desde Google Sheets -->
+<h3>Observaciones desde Google Forms</h3>
+<div id="contenedorDatos">Cargando datos desde Google Sheets...</div>
+
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzdok56eVKEW8vuo0Y0GBL0tiYDb4kXKcpWWtE9B4IAsh8rNjHzXf9Eu-EYhTo9ptdJ/exec";
+
+  async function cargarObservaciones() {
+    try {
+      const respuesta = await fetch(API_URL);
+      const datos = await respuesta.json();
+      console.log("Datos recibidos:", datos);
+
+      const contenedor = document.getElementById("contenedorDatos");
+      contenedor.innerHTML = ""; // Limpia el contenido anterior
+
+      datos.forEach((fila, i) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${i + 1}.</strong> ${fila["Escribe tu observación"] || "(sin texto)"} - <em>${fila["Nombre "] || "Anónimo"}</em>`;
+        contenedor.appendChild(div);
+      });
+
+    } catch (error) {
+      console.error("Error al cargar observaciones:", error);
+    }
+  }
+
+  // Ejecuta la función cuando se carga la página
+  window.addEventListener("load", cargarObservaciones);
+</script>
 </body>
-</html>
-  </body>
 </html>
