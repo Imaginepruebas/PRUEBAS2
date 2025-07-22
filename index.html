@@ -746,8 +746,8 @@
         const fechaFinFiltro = document.getElementById('fechaFinFiltro').value;
         const busqueda = document.getElementById('busqueda').value.toLowerCase();
         let filteredTasks = tasks.filter(task => {
-          const matchesEstado = estadoFiltro === '' || task.state.toLowerCase() === estadoFiltro.toLowerCase();
-          const matchesUnidad = unidadFiltro === '' || (task.unit && task.unit.toLowerCase() === unidadFiltro.toLowerCase());
+          const matchesEstado = estadoFiltro === '' || (task.state || "").toLowerCase() === estadoFiltro.toLowerCase();
+          const matchesUnidad = unidadFiltro === '' || (task.unit || "").toLowerCase() === unidadFiltro.toLowerCase();
           const taskStartDate = parseDate(task.startDate);
           const filterStartDate = fechaInicioFiltro ? new Date(fechaInicioFiltro) : null;
           const matchesStartDate = !filterStartDate || (taskStartDate && taskStartDate >= filterStartDate);
