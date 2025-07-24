@@ -196,18 +196,7 @@
       padding-right: 10px;
     }
   </style>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const fecha = new Date();
-      const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
-      const fechaFormateada = fecha.toLocaleDateString('es-CO', opciones);
-      const reportSpan = document.getElementById('reportDate');
-      if (reportSpan) {
-        reportSpan.textContent = fechaFormateada;
-      }
-    });
-  </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container-fluid mt-4 px-4"></div>
@@ -223,7 +212,6 @@
     <a href="#estadisticas"><i class="fas fa-chart-bar me-2"></i>Estadísticas</a>
     <a href="#graficos"><i class="fas fa-chart-line me-2"></i>Gráficos</a>
     <a href="#recomendaciones"><i class="fas fa-lightbulb me-2"></i>Recomendaciones</a>
-    <a href="#observaciones"><i class="fas fa-comment me-2"></i>Observaciones</a>
   </nav>
 
   <div class="content">
@@ -277,7 +265,8 @@
             </div>
           </div>
           <div class="d-flex justify-content-start mb-2">
-            <button id="toggleFinalizados" class="btn btn-sm btn-toggle-finalizados">Ocultar Finalizados</button>
+           <button id="toggleFinalizados" class="btn btn-sm btn-primary">Ocultar Finalizados</button>
+
           </div>
           <div id="taskList">
             <p class="no-results">Cargando tareas...</p>
@@ -317,29 +306,6 @@
         <p>Se recomienda priorizar las tareas en estado 'Pendiente' y revisar la efectividad de los procesos de entrenamiento de IA. Preste atención a las tareas con fecha de fin próxima o vencida para evitar retrasos.</p>
       </div>
     </div>
-
-    <STL
-
-    <div id="observaciones" class="card">
-      <div class="card-header">
-        <h2>Observaciones</h2>
-      </div>
-      <div class="card-body">
-        <label for="nombre-observador" class="form-label">
-          Tu nombre <span style="color: red">*</span>
-        </label>
-        <input id="nombre-observador" type="text" class="form-control mb-2" placeholder="Ej. Juan" />
-        <textarea id="observaciones-input" class="form-control" placeholder="Escribe tus observaciones aquí..." rows="4"></textarea>
-        <button class="btn btn-primary mt-3" onclick="submitObservation()">
-          <i class="fas fa-save me-2"></i>Guardar Observación
-        </button>
-        <div id="saved-observations" class="mt-3">
-          <p class="loading">Cargando observaciones...</p>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // Fechas para el reporte
       const today = new Date();
@@ -352,6 +318,7 @@
 
       // Estructura de datos JSON
       let tasks = [];
+      let tareaEnEdicion = null;
       const archivos = [
         'datos/bolivar.json',
         'datos/proteccion.json',
@@ -359,26 +326,49 @@
         'datos/Colmedica.json',
         'https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1'
       ];
-      console.log("Cargando archivos JSON:", archivos);
-      Promise.all(archivos.map(url => fetch(url).then(r => {
-        if (!r.ok) throw new Error(`No se pudo cargar ${url}`);
-        return r.json();
-      })))
-        .then(respuestas => {
-          tasks = respuestas.flat();
-          if (tasks.length === 0) {
-            document.getElementById('taskList').innerHTML = '<p class="no-results">No se encontraron tareas en los datos cargados.</p>';
-            return;
-          }
-          initializeReport();
-          applyFilters();
-        })
-        .catch(error => {
-          console.error("Error al cargar los archivos JSON:", error);
-          document.getElementById('taskList').innerHTML = `<p class="no-results">Error al cargar los datos: ${error.message}</p>`;
-        });
+      function transformarDesdeGoogleSheets(fila, index) {
+  return {
+    id: fila["ID del Requerimiento"] || `GS-${index + 1}`,
+    title: fila["Título"] || "(Sin título)",
+    assigned: fila["Asignado a"] || "Anónimo",
+    state: fila["Estado"] || "Sin estado",
+    progress: parseInt(fila["% Avance "] || 0),
+    startDate: fila["Fecha de Inicio"] || "",
+    endDate: fila["Fecha de Finalización"] || "",
+    unit: fila["Unidad"] || "",
+    detail: fila["Detalle del Requerimiento"] || "Sin detalle registrado.",
+    observations: fila["Escribe tu observación"] || "", 
+    visible: true
+  };
+}
 
-      // Mapeo de estados a colores
+console.log("Cargando archivos JSON:", archivos);
+
+Promise.all(
+  archivos.map(url => fetch(url).then(resp => resp.json()))
+).then(dataArrays => {
+  dataArrays.forEach((data, i) => {
+    // Si viene de Google Sheets
+    if (archivos[i].includes('opensheet.elk.sh')) {
+      const transformados = data.map((fila, index) => transformarDesdeGoogleSheets(fila, index));
+      tasks.push(...transformados);
+    } else {
+      tasks.push(...data);
+    }
+  });
+
+  // ✅ Mostrar tareas cargadas
+  console.log("Tareas cargadas:", tasks);
+
+  // ✅ Iniciar filtros y eventos
+  initializeReport();
+
+  // ✅ Renderizar todo al cargar
+  applyFilters();
+}).catch(error => {
+  console.error("Error al cargar los archivos JSON:", error);
+});
+  // Mapeo de estados a colores
       const stateColors = {
         "En Proceso": '#1f77b4',
         "Paso a Producción": '#7f7f7f',
@@ -548,6 +538,35 @@
             </div>
           `;
           taskList.appendChild(taskCard);
+          // Activar botón de edición
+document.querySelectorAll('.editar-btn').forEach(boton => {
+  boton.addEventListener('click', function () {
+    const id = this.dataset.id;
+    const tarea = tasks.find(t => t.id === id);
+    if (!tarea) return;
+
+    tareaEnEdicion = tarea;
+
+    // Llenar los campos del formulario de edición
+    document.getElementById("editId").value = tarea.id || "";
+    document.getElementById("editTitulo").value = tarea.title || "";
+    document.getElementById("editUnidad").value = tarea.unit || "";
+    document.getElementById("editAsignado").value = tarea.assigned || "";
+    document.getElementById("editEstado").value = tarea.state || "";
+    document.getElementById("editAvance").value = tarea.progress || 0;
+    document.getElementById("editFechaInicio").value = convertirAFormatoInput(tarea.startDate || "");
+    document.getElementById("editFechaFin").value = convertirAFormatoInput(tarea.endDate || "");
+    document.getElementById("editDetalle").value = tarea.detail || "";
+    document.getElementById("editNuevaObservacion").value = "";
+
+    // Mostrar el modal
+   const modal = new bootstrap.Modal(document.getElementById('modalEditar'), {
+  backdrop: false
+});
+modal.show();
+
+  });
+});
         });
         document.querySelectorAll('.toggle-detail-text').forEach(link => {
           link.addEventListener('click', function (e) {
@@ -574,7 +593,6 @@
           });
         });
       }
-
       // Renderizar Estadísticas
       function updateStatistics(filteredTasks = tasks) {
         filteredTasks = filteredTasks.filter(task => {
@@ -795,15 +813,39 @@
           document.body.removeChild(loadingOverlay);
           document.querySelector('.sidebar').style.display = 'block';
           document.querySelector('.content').style.marginLeft = '270px';
-          initializeReport();
-          applyFilters();
-        }).catch(error => {
-          document.body.removeChild(loadingOverlay);
-          document.querySelector('.sidebar').style.display = 'block';
-          document.querySelector('.content').style.marginLeft = '270px';
-          console.error('Error generating PDF:', error);
-          alert('Error al generar el PDF. Por favor, intenta de nuevo.');
-        });
+initializeReport();
+applyFilters();
+
+// Asegúrate de que el botón existe en el DOM antes de agregar el evento
+const btnToggle = document.getElementById("toggleFinalizados");
+
+if (btnToggle) {
+  btnToggle.addEventListener("click", () => {
+    mostrarFinalizados = !mostrarFinalizados;
+
+    // Cambia el texto
+    btnToggle.textContent = mostrarFinalizados ? "Ocultar Finalizados" : "Mostrar Finalizados";
+
+    // Elimina los colores previos
+    btnToggle.classList.remove("btn-primary", "btn-secondary");
+
+    // Aplica el color según el estado
+    if (mostrarFinalizados) {
+      btnToggle.classList.add("btn-primary");
+    } else {
+      btnToggle.classList.add("btn-secondary");
+    }
+
+    applyFilters();
+  });
+}
+}).catch(error => {
+  document.body.removeChild(loadingOverlay);
+  document.querySelector('.sidebar').style.display = 'block';
+  document.querySelector('.content').style.marginLeft = '270px';
+  console.error('Error generating PDF:', error);
+  alert('Error al generar el PDF. Por favor, intenta de nuevo.');
+});
       }
 
       // Exportación a PNG
@@ -850,21 +892,33 @@
 
       // Inicializar el reporte
       function initializeReport() {
-        populateEstadoFilter(tasks);
-        document.getElementById('estadoFiltro').addEventListener('change', applyFilters);
-        document.getElementById('unidadFiltro').addEventListener('change', applyFilters);
-        document.getElementById('fechaInicioFiltro').addEventListener('change', applyFilters);
-        document.getElementById('fechaFinFiltro').addEventListener('change', applyFilters);
-        document.getElementById('busqueda').addEventListener('input', applyFilters);
-        document.getElementById('btnLimpiarFiltros').addEventListener('click', () => {
-          document.getElementById('estadoFiltro').value = '';
-          document.getElementById('unidadFiltro').value = '';
-          document.getElementById('fechaInicioFiltro').value = '';
-          document.getElementById('fechaFinFiltro').value = '';
-          document.getElementById('busqueda').value = '';
-          applyFilters();
-        });
-      }
+  populateEstadoFilter(tasks);
+  document.getElementById('estadoFiltro').addEventListener('change', applyFilters);
+  document.getElementById('unidadFiltro').addEventListener('change', applyFilters);
+  document.getElementById('fechaInicioFiltro').addEventListener('change', applyFilters);
+  document.getElementById('fechaFinFiltro').addEventListener('change', applyFilters);
+  document.getElementById('busqueda').addEventListener('input', applyFilters);
+
+  document.getElementById('btnLimpiarFiltros').addEventListener('click', () => {
+    document.getElementById('estadoFiltro').value = '';
+    document.getElementById('unidadFiltro').value = '';
+    document.getElementById('fechaInicioFiltro').value = '';
+    document.getElementById('fechaFinFiltro').value = '';
+    document.getElementById('busqueda').value = '';
+    applyFilters();
+  });
+
+  document.getElementById("toggleFinalizados").addEventListener("click", () => {
+    mostrarFinalizados = !mostrarFinalizados;
+    document.getElementById("toggleFinalizados").textContent = mostrarFinalizados
+      ? "Ocultar Finalizados"
+      : "Mostrar Finalizados";
+    applyFilters();
+  });
+
+  // Cargar observaciones desde Google Sheets
+  window.addEventListener("load", cargarObservaciones);
+}
 
       // Formatear detalle
       function formatearDetalle(texto) {
@@ -900,7 +954,7 @@
       }
 
       // Función para enviar observaciones al Google Form
-      function submitObservation() {
+     /*  function submitObservation() {
         const observacion = document.getElementById("observaciones-input").value.trim();
         const nombre = document.getElementById("nombre-observador").value.trim();
         if (!nombre) {
@@ -927,7 +981,7 @@
           console.error("Error al enviar la observación:", error);
           alert("Ocurrió un error al guardar la observación.");
         });
-      }
+      } */
 
       // Función para cargar observaciones
       function loadObservations() {
@@ -957,6 +1011,14 @@
             document.getElementById('saved-observations').innerHTML = '<p class="no-results">Error al cargar observaciones.</p>';
           });
       }
+
+function convertirAFormatoInput(fecha) {
+  if (!fecha || typeof fecha !== "string") return "";
+  if (!fecha.includes("/")) return fecha; // Ya está en formato correcto
+  const [d, m, a] = fecha.split("/");
+  return `${a}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+}
+
 function convertirFecha(fechaStr) {
   const partes = fechaStr.split("/");
   if (partes.length !== 3) return fechaStr;
@@ -1227,9 +1289,8 @@ function convertirFecha(fechaStr) {
         </div>
       </div>
     </div>
-   <!-- Contenedor para mostrar las observaciones desde Google Sheets -->
-<h3>Observaciones desde Google Forms</h3>
-<div id="contenedorDatos">Cargando datos desde Google Sheets...</div>
+    <!-- <h3>Observaciones desde Google Forms</h3>
+<div id="contenedorDatos">Cargando datos desde Google Sheets...</div> -->
 
 <script>
   const API_URL = "https://opensheet.elk.sh/1tifWNA450_RR83JM2TmI2q4RUyGLzNKAOsXy_sHJRFo/Form Responses 1";
@@ -1253,9 +1314,96 @@ function convertirFecha(fechaStr) {
       console.error("Error al cargar observaciones:", error);
     }
   }
-
-  // Ejecuta la función cuando se carga la página
-  window.addEventListener("load", cargarObservaciones);
 </script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fecha = new Date();
+      const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      const fechaFormateada = fecha.toLocaleDateString('es-CO', opciones);
+      const reportSpan = document.getElementById('reportDate');
+      if (reportSpan) {
+        reportSpan.textContent = fechaFormateada;
+      }
+    });
+  </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+  const modalEditar = document.getElementById('modalEditar');
+  modalEditar.addEventListener('hidden.bs.modal', () => {
+    // Elimina backdrop si queda pegado
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    // Limpia clases del body si Bootstrap falla en quitarlas
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  });
+  function enviarActualizacionAGoogleSheets(datosEditados) {
+  fetch('https://script.google.com/macros/s/AKfycbyq6wSh_ev507ISEToHfkJXIE0pJhDijHja_hpMLXZHYzGdYvzCFJrvxsHdoU8kQ_D9/exec', {
+    method: 'POST',
+    body: JSON.stringify(datosEditados),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.text())
+  .then(msg => {
+    console.log('Respuesta del servidor:', msg);
+    alert('Requerimiento actualizado correctamente.');
+    location.reload(); // Recargar para reflejar cambios
+  })
+  .catch(error => {
+    console.error('Error al enviar la actualización:', error);
+    alert('Hubo un error al guardar los cambios.');
+  });
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const formEditar = document.getElementById("formEditarRequerimiento");
+  if (formEditar) {
+    formEditar.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!tareaEnEdicion) {
+        alert("No hay tarea en edición activa.");
+        return;
+      }
+
+      // Obtener valores del formulario
+      const estado = document.getElementById("editEstado").value;
+      const avance = parseInt(document.getElementById("editAvance").value) || 0;
+      const fechaInicio = document.getElementById("editFechaInicio").value;
+      const fechaFin = document.getElementById("editFechaFin").value;
+      const detalle = document.getElementById("editDetalle").value;
+      const nuevaObs = document.getElementById("editNuevaObservacion").value.trim();
+      const hoy = new Date().toLocaleDateString("es-CO", {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+
+      // Actualizar objeto en memoria
+      tareaEnEdicion.state = estado;
+      tareaEnEdicion.progress = avance;
+      tareaEnEdicion.startDate = fechaInicio;
+      tareaEnEdicion.endDate = fechaFin;
+      tareaEnEdicion.detail = detalle;
+
+      if (nuevaObs !== "") {
+        tareaEnEdicion.observations = `[${hoy}]: ${nuevaObs}\n` + (tareaEnEdicion.observations || "");
+      }
+
+      // Enviar a Google Apps Script
+      enviarActualizacionAGoogleSheets(tareaEnEdicion);
+
+      // Cerrar modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById("modalEditar"));
+      if (modal) modal.hide();
+
+      // Recargar tareas para ver cambios reflejados (opcional: más elegante sería solo actualizar la tarjeta)
+      applyFilters();
+    });
+  }
+});
+</script>
+
 </body>
 </html>
