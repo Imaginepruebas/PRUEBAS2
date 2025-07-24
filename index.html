@@ -1337,72 +1337,37 @@ function convertirFecha(fechaStr) {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
   });
-  function enviarActualizacionAGoogleSheets(datosEditados) {
-  fetch('https://script.google.com/macros/s/AKfycbyq6wSh_ev507ISEToHfkJXIE0pJhDijHja_hpMLXZHYzGdYvzCFJrvxsHdoU8kQ_D9/exec', {
-    method: 'POST',
+  function enviarActualizacionAGoogleSheets(tarea) {
+  const datosEditados = {
+    id: tarea.id,
+    timestamp: new Date().toISOString(),
+    "Título del requerimiento": tarea.title,
+    "Nombre ": tarea.user,
+    "Estado": tarea.state,
+    "Avance": tarea.progress,
+    "Fecha de inicio": tarea.startDate,
+    "Fecha de finalización": tarea.endDate,
+    "Unidad": tarea.unit,
+    "Escribe tu observación": document.getElementById("editNuevaObservacion").value.trim()
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbyq6wSh_ev507ISEToHfkJXIE0pJhDijHja_hpMLXZHYzGdYvzCFJrvxsHdoU8kQ_D9/exec", {
+    method: "POST",
     body: JSON.stringify(datosEditados),
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
   })
   .then(response => response.text())
-  .then(msg => {
-    console.log('Respuesta del servidor:', msg);
-    alert('Requerimiento actualizado correctamente.');
-    location.reload(); // Recargar para reflejar cambios
+  .then(texto => {
+    console.log("Respuesta del servidor:", texto);
+    alert("Requerimiento actualizado correctamente.");
   })
   .catch(error => {
-    console.error('Error al enviar la actualización:', error);
-    alert('Hubo un error al guardar los cambios.');
+    console.error("Error al enviar la actualización:", error);
+    alert("Hubo un error al guardar los cambios.");
   });
-}
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const formEditar = document.getElementById("formEditarRequerimiento");
-  if (formEditar) {
-    formEditar.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!tareaEnEdicion) {
-        alert("No hay tarea en edición activa.");
-        return;
-      }
-
-      // Obtener valores del formulario
-      const estado = document.getElementById("editEstado").value;
-      const avance = parseInt(document.getElementById("editAvance").value) || 0;
-      const fechaInicio = document.getElementById("editFechaInicio").value;
-      const fechaFin = document.getElementById("editFechaFin").value;
-      const detalle = document.getElementById("editDetalle").value;
-      const nuevaObs = document.getElementById("editNuevaObservacion").value.trim();
-      const hoy = new Date().toLocaleDateString("es-CO", {
-        day: '2-digit', month: '2-digit', year: 'numeric'
-      });
-
-      // Actualizar objeto en memoria
-      tareaEnEdicion.state = estado;
-      tareaEnEdicion.progress = avance;
-      tareaEnEdicion.startDate = fechaInicio;
-      tareaEnEdicion.endDate = fechaFin;
-      tareaEnEdicion.detail = detalle;
-
-      if (nuevaObs !== "") {
-        tareaEnEdicion.observations = `[${hoy}]: ${nuevaObs}\n` + (tareaEnEdicion.observations || "");
-      }
-
-      // Enviar a Google Apps Script
-      enviarActualizacionAGoogleSheets(tareaEnEdicion);
-
-      // Cerrar modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById("modalEditar"));
-      if (modal) modal.hide();
-
-      // Recargar tareas para ver cambios reflejados (opcional: más elegante sería solo actualizar la tarjeta)
-      applyFilters();
-    });
-  }
-});
+};
 </script>
 
 </body>
